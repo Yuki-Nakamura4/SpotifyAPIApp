@@ -27,14 +27,14 @@ def key_number_to_name(key_sig_num):
         "D♭/B♭m",
         "D/Bm",
         "E♭/Cm",
-        "E/♯m",
+        "E/C♯m",
         "F/Dm",
         "G♭/D♯m",
         "G/Em",
         "A♭/Fm",
-        "A/F#m",
+        "A/F♯m",
         "B♭/Gm",
-        "B/G#m",
+        "B/G♯m",
     ]
     return key_names[key_sig_num]
 

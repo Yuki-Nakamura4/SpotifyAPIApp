@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PolarArea } from 'react-chartjs-2';
 
-interface KeyData {
+type KeyData = {
   name: string;
   value: number;
   fill: string;
-}
+};
 
 export const Top: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -15,35 +15,24 @@ export const Top: React.FC = () => {
   const [keyData, setKeyData] = useState<KeyData[]>([]);
   const [searchButtonClicked, setSearchButtonClicked] = useState<boolean>(false);
 
-  // 五度圏の順(真上から時計回りにC, D, G......)
-  const KeysOrder = ["C/Am", "G/Em", "D/Bm", "A/F#m", "E/C#m", "B/G#m", "G♭/D#m", "D♭/B♭m", "A♭/Fm", "E♭/Cm", "B♭/Gm", "F/Dm"];
-  
-  // 12種類のキーに異なる色を割り当てる
+  const KeysOrder = ["C/Am", "G/Em", "D/Bm", "A/F♯m", "E/C♯m", "B/G♯m", "G♭/D♯m", "D♭/B♭m", "A♭/Fm", "E♭/Cm", "B♭/Gm", "F/Dm"];
+
   const keyColors: string[] = [
-    // C=白, G=青, D=黄, A=赤紫, E=緑, B=橙
     '#fff8ff', '#00CEFF', '#FFFF8A', '#FF596D', '#00FF7E', '#FFC88A',
-    // F#=紫, D♭=薄い青緑, A♭=青紫, E♭=青緑, B♭=グレー, F=ベージュ
     '#BB62FF', '#D4FFF6', '#4F5EFF', '#00B5D4', '#ECEBEC', '#FFF8D8',
   ];
 
-  // 検索ボタンが実行されたときの処理
   const handleSearch = () => {
-    //　ユーザーが何も入力していなければ処理を終了する
     if (searchQuery.trim() === '') {
       return;
     }
-    // データの取得中であることを表示
     setLoading(true);
-    // 検索結果が0件ではないことを明示的に設定
     setNoResults(false);
-    // 検索ボタンがクリックされたことを示すフラグを設定
     setSearchButtonClicked(true);
   };
 
-  
   useEffect(() => {
     if (searchButtonClicked) {
-      // searchButtonClicked が true のときだけ実行
       fetch(`http://localhost:8000/search_artist/?artist=${searchQuery}`, {
         method: 'GET',
       })
@@ -61,7 +50,6 @@ export const Top: React.FC = () => {
               } else {
                 keyCount[item.キー] = 1;
               }
-              console.log(keyCount);
             });
 
             const sortedKeyData = KeysOrder.map((key, index) => ({
@@ -70,17 +58,14 @@ export const Top: React.FC = () => {
               fill: keyColors[index],
             }));
 
-
-
             setKeyData(sortedKeyData);
-            console.log(sortedKeyData);
           }
         })
         .catch(error => {
           console.error(error);
           setLoading(false);
         });
-      setSearchButtonClicked(false); // ボタンクリックフラグをリセット
+      setSearchButtonClicked(false);
     }
   }, [searchButtonClicked, searchQuery]);
 
@@ -94,23 +79,84 @@ export const Top: React.FC = () => {
     ],
   };
 
+  const options: {} = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      r: {
+        startAngle: -15,
+        ticks: {
+          display: false,
+        },
+      }
+    }
+  }
+
   return (
     <div>
-      <input
-        type="text"
-        placeholder="検索キーワード"
-        value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
-      />
-      <button onClick={handleSearch}>検索</button>
+      <div className="p-4 flex justify-center">
+        <input
+          type="text"
+          placeholder="検索キーワード"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className= "w-52 px-2"
+        />
+        <button className="ml-4 px-2 bg-cyan-600 text-white rounded-full hover:bg-cyan-700" onClick={handleSearch}> 検索 </button>
+      </div>
       {loading ? (
-        <div>データを取得中です......</div>
+        <div className="flex justify-center">
+          <div>
+            データを取得中です...
+          </div>
+        </div>
       ) : noResults ? (
         <div>検索結果が0件でした</div>
       ) : keyData.length > 0 ? (
         <div>
-          <h2>検索結果:</h2>
-          <PolarArea data={chartData} />
+          <div className="flex justify-center">
+            <div className="my-4 mx-4 flex flex-wrap">
+              {keyData.map((key, index) => (
+                <div key={index} className="w-1/2 flex items-center">
+                  <div
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      backgroundColor: key.fill,
+                      marginRight: "4px",
+                    }}
+                  ></div>
+                  <span>{key.name}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mr-2 300px">
+              <PolarArea data={chartData} options={options} />
+            </div>
+          </div>
+          <div className="m-8 sm:mx-52">
+            <div className="max-h-96 overflow-y-auto">
+              <table className="w-full border-collapse border border-cyan-700">
+                <thead >
+                  <tr className="bg-cyan-600 mx-8">
+                    <th className="pl-4 py-2 text-left text-white">曲名</th>
+                    <th className="pl-4  py-2 text-left text-white">キー</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {searchResult.map((item, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-2">{item.曲名}</td>
+                      <td className="px-4 py-2">{item.キー}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       ) : null}
     </div>
