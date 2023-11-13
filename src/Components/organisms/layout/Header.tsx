@@ -16,11 +16,10 @@ export const Header = memo(() => {
     const onClickMypage = useCallback(() => navigate("/mypage"),[]);
     const onClickSetting = useCallback(() => navigate("/setting"),[]);
 
-
   return (
     <>
     <div className="flex items-center bg-cyan-700 h-14 w-full">
-      <button className="ml-5 text-2xl text-white font-Quicksand font-500" onClick={onClickTop} >KEY PALETTE</button>
+      <button className="ml-5 text-2xl text-white font-Quicksand font-500" onClick={onClickTop} >タイトル</button>
       <p className="text-base text-white hover:text-sky-100 ml-auto mr-5 invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickMypage}>MY PAGE</p>
       <p className="text-base text-white mr-5 invisible sm:visible font-Quicksand">/</p> 
       <p className="text-base text-white hover:text-sky-100 mr-5 invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickSetting}>SETTING</p>
