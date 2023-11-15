@@ -1,13 +1,14 @@
 import { memo, useCallback, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Header = memo(() => {
     const [openMenu, setOpenMenu] = useState(false);
     const handleMenuOpen = () => {
       setOpenMenu(!openMenu);
     };
+    const location = useLocation();
     const navigate = useNavigate();
 
     // 不要な再レンダリングが走らないようuseCallbackでラップ
@@ -16,13 +17,21 @@ export const Header = memo(() => {
     const onClickMypage = useCallback(() => navigate("/mypage"),[]);
     const onClickSetting = useCallback(() => navigate("/setting"),[]);
 
+    const isTopPage = location.pathname === "/";
+
   return (
     <>
-    <div className="flex items-center bg-cyan-700 h-14 w-full">
-      <button className="ml-5 text-2xl text-white font-Quicksand font-500" onClick={onClickTop} >タイトル</button>
-      <p className="text-base text-white hover:text-sky-100 ml-auto mr-5 invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickMypage}>MY PAGE</p>
-      <p className="text-base text-white mr-5 invisible sm:visible font-Quicksand">/</p> 
-      <p className="text-base text-white hover:text-sky-100 mr-5 invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickSetting}>SETTING</p>
+
+    <div className="items-center bg-white h-32 w-full border-b border-slate-300">
+      <div className="justify-center flex">
+    <button className="mt-6 text-4xl text-center text-slate-500 font-Quicksand font-500" onClick={onClickTop} >タイトル</button>
+    </div>
+      <div className="mt-5 mb-4 flex justify-center space-x-8">
+      <p className={`text-lg ${isTopPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickTop}>TOP</p>
+      <p className="text-lg text-slate-500 hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickMypage}>MY PAGE</p>
+      <p className="text-lg text-slate-500 hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickMypage}>QUIZ</p>
+      <p className="text-lg text-slate-500 hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickSetting}>SETTING</p>
+      </div>
       <FontAwesomeIcon size="lg" icon={faBars} style={{color: "#ffffff",}} className="mr-5 sm:hidden" onClick={handleMenuOpen}/>
       <nav className={
               openMenu
