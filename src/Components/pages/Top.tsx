@@ -18,6 +18,7 @@ export const Top: React.FC = () => {
   const [keyData, setKeyData] = useState<KeyData[]>([]);
   const [artistData, setArtistData] = useState<{ name: string; id: string }[]>([]);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
+  const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
 
   const KeysOrder = useMemo(() => ["C/Am", "G/Em", "D/Bm", "A/F♯m", "E/C♯m", "B/G♯m", "G♭/D♯m", "D♭/B♭m", "A♭/Fm", "E♭/Cm", "B♭/Gm", "F/Dm"], []);
 
@@ -62,6 +63,8 @@ export const Top: React.FC = () => {
       setSearchResult(data);
       setSearchQuery('');
       setSearchPerformed(true);
+      const artistName = artistData.find(artist => artist.id === artistId)?.name;
+      setSelectedArtist(artistName || null);
     } catch (error) {
       console.error(error);
       setErrorMessage('データの取得に失敗しました');
@@ -108,6 +111,7 @@ export const Top: React.FC = () => {
         <div>検索結果が0件でした</div>
       ) : keyData.length > 0 ? (
         <div>
+          <h2>{selectedArtist ? `${selectedArtist}の楽曲の調データ` : '楽曲の調データ'}</h2>
           <div className="flex justify-center">
           <KeyDataList keyData={keyData} />
             <div className="mr-2 mt-4 300px">

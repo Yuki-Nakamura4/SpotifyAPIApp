@@ -1,8 +1,12 @@
 import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+
+# .env ファイルから環境変数を読み込む
+load_dotenv()
 
 app = FastAPI()
 
