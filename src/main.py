@@ -85,8 +85,9 @@ def search_artist(artist: str = Query(..., title="アーティスト名")):
 def get_artists_name(artist: str = Query(..., title="アーティスト名")):
     sp = spotipy.Spotify(
         auth_manager=SpotifyClientCredentials(
-            client_id="55015e2f1db8470598bdf29820394b4d",
-            client_secret="cf89f0147a434f2781ade857215287e0",
+            # 環境変数から読み込む
+            client_id=os.getenv("SPOTIFY_CLIENT_ID"),
+            client_secret=os.getenv("SPOTIFY_CLIENT_SECRET"),
         ),
         language="ja",
     )
@@ -105,8 +106,9 @@ def get_artists_name(artist: str = Query(..., title="アーティスト名")):
 def get_songs_by_artist(artist_id: str = Query(..., title="アーティストID")):
     sp = spotipy.Spotify(
         auth_manager=SpotifyClientCredentials(
-            client_id="55015e2f1db8470598bdf29820394b4d",
-            client_secret="cf89f0147a434f2781ade857215287e0",
+            # 環境変数から読み込む
+            client_id=os.getenv("SPOTIFY_CLIENT_ID"),
+            client_secret=os.getenv("SPOTIFY_CLIENT_SECRET"),
         ),
         language="ja",
     )
