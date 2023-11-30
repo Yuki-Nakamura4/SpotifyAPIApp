@@ -15,22 +15,25 @@ export const Header = memo(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const onClickTop = useCallback(() => navigate("/"),[]);
     const onClickMypage = useCallback(() => navigate("/mypage"),[]);
-    const onClickSetting = useCallback(() => navigate("/setting"),[]);
+    const onClickQuiz = useCallback(() => navigate("/quiz"),[]);
+    const onClickSettings = useCallback(() => navigate("/settings"),[]);
 
     const isTopPage = location.pathname === "/";
+    const isMyPage = location.pathname === "/mypage";
+    const isQuiz = location.pathname === "/quiz";
+    const isSettings = location.pathname === "/settings";
 
   return (
     <>
-
     <div className="items-center bg-white h-32 w-full border-b border-slate-300">
       <div className="justify-center flex">
-    <button className="mt-6 text-4xl text-center text-slate-500 font-Quicksand font-500" onClick={onClickTop} >タイトル</button>
+    <button className="mt-6 text-4xl text-center text-slate-500 font-Quicksand font-500" onClick={onClickTop} >KEY PALETTE</button>
     </div>
       <div className="mt-5 mb-4 flex justify-center space-x-8">
       <p className={`text-lg ${isTopPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickTop}>TOP</p>
-      <p className="text-lg text-slate-500 hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickMypage}>MY PAGE</p>
-      <p className="text-lg text-slate-500 hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickMypage}>QUIZ</p>
-      <p className="text-lg text-slate-500 hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer" onClick={onClickSetting}>SETTING</p>
+      <p className={`text-lg ${isMyPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickMypage}>MY PAGE</p>
+      <p className={`text-lg ${isQuiz ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickQuiz}>QUIZ</p>
+      <p className={`text-lg ${isSettings ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickSettings}>SETTINGS</p>
       </div>
       <FontAwesomeIcon size="lg" icon={faBars} style={{color: "#ffffff",}} className="mr-5 sm:hidden" onClick={handleMenuOpen}/>
       <nav className={
@@ -47,7 +50,6 @@ export const Header = memo(() => {
           </ul>
       </nav>
     </div>
-    {/* <div className="flex items-center bg-white h-7 w-full"></div> */}
     </>
   );
 });

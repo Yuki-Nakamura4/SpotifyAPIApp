@@ -111,7 +111,7 @@ export const Top: React.FC = () => {
         <div>検索結果が0件でした</div>
       ) : keyData.length > 0 ? (
         <div>
-          <h2>{selectedArtist ? `${selectedArtist}の楽曲の調データ` : '楽曲の調データ'}</h2>
+          <h2 className="flex justify-center py-5 text-lg">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
           <div className="flex justify-center">
           <KeyDataList keyData={keyData} />
             <div className="mr-2 mt-4 300px">
