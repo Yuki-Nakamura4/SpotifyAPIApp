@@ -1,8 +1,9 @@
+// Top.tsx
 import React, { useState, useEffect, useMemo } from 'react';
+import SearchSection from '../organisms/SearchSection';
 import KeyChart from '../organisms/KeyChart';
 import {KeyDataList} from '../organisms/KeyDataList';
 import ResultTable from '../organisms/ResultTable';
-import { SearchBar } from '../molecules/SearchBar';
 
 type KeyData = {
   name: string;
@@ -93,7 +94,7 @@ export const Top: React.FC = () => {
 
   return (
     <div>
-      <SearchBar 
+      <SearchSection 
         searchQuery={searchQuery} 
         setSearchQuery={setSearchQuery} 
         artistData={artistData} 
@@ -124,3 +125,5 @@ export const Top: React.FC = () => {
     </div>
   );
 };
+
+export default Top;
