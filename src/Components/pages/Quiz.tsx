@@ -24,18 +24,24 @@ export const Quiz: React.FC = () => {
 
   const startQuiz = () => {
     setQuizStarted(true);
-    const randomArtistName = getRandomArtists();
-    // 仮のデータを設定しています。適切なデータを取得する必要があります。
-    const randomArtist: Artist = {
-      id: 1, // 仮の値、実際のプロジェクトでは適切な値を設定してください
-      name: randomArtistName,
-      keyData: [
-        { name: 'C', value: 1, fill: '#FF5733' },
-        { name: 'D', value: 2, fill: '#33FF57' },
-        // 他のデータも追加
-      ],
-    };
-    setShuffledArtists([randomArtist]);
+    const randomArtists: Artist[] = Array.from({ length: 4 }, (_, index) => {
+        const randomArtistName = getRandomArtists();
+        return {
+          id: index + 1,
+          name: randomArtistName,
+          keyData: [
+            { name: 'C', value: 1, fill: '#FF5733' },
+            { name: 'D', value: 2, fill: '#33FF57' },
+            { name: 'E', value: 3, fill: '#5733FF' },
+            { name: 'F', value: 4, fill: '#FF5733' },
+            { name: 'G', value: 5, fill: '#33FF57' },
+            { name: 'A', value: 6, fill: '#5733FF' },
+            { name: 'B', value: 7, fill: '#FF5733' },
+            // 他のデータも追加
+          ],
+        };
+      });
+    setShuffledArtists(randomArtists);
     setKeyData([]); // クイズが始まるたびに keyData をリセット
   };
 

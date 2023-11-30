@@ -22,7 +22,9 @@ const QuizOptions: React.FC<QuizOptionsProps> = ({ shuffledArtists, handleAnswer
   return (
     <div className="grid grid-cols-2 gap-4 mt-6">
       {shuffledArtists.map((artist) => (
+        <>
         <QuizOptionsButton key={artist.id} artist={artist} onClick={handleAnswerClick} />
+        </>
       ))}
     </div>
   );
