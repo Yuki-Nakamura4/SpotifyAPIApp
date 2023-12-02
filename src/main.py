@@ -1,4 +1,5 @@
 import os
+import random
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,11 +24,6 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-def Hello():
-    return {"Hello": "World!"}
-
-
 def key_number_to_name(key_sig_num):
     key_names = [
         "C/Am",
@@ -47,6 +43,7 @@ def key_number_to_name(key_sig_num):
 
 
 # 楽曲を検索するAPI
+# @app.getはFastAPIのデコレータで、HTTP GETリクエストに対応するエンドポイント(APIの特定のURL)を定義する
 @app.get("/search_artist/")
 def search_artist(artist: str = Query(..., title="アーティスト名")):
     sp = spotipy.Spotify(
@@ -153,3 +150,44 @@ def get_songs_by_artist(artist_id: str = Query(..., title="アーティストID"
                 response_data.append({"曲名": track_name, "キー": "キー情報が提供されていません"})
 
     return response_data
+
+
+@app.get("/get_random_artists/")
+def get_random_artists(popularity_threshold=50, num_artists=4):
+    sp = spotipy.Spotify(
+        auth_manager=SpotifyClientCredentials(
+            client_id=os.getenv("SPOTIFY_CLIENT_ID"),
+            client_secret=os.getenv("SPOTIFY_CLIENT_SECRET"),
+        ),
+        language="ja",
+    )
+
+    # 日本のアーティストを検索するためのクエリ
+    japan_query = "genre:j-pop"  # Include country filter
+
+    # 日本のアーティストを検索
+    results = sp.search(q=japan_query, type="artist", limit=50, market="JP")
+    japanese_artists = results["artists"]["items"]
+
+    # 一定以上の人気を持つアーティストをフィルタリング
+    popular_japanese_artists = [
+        artist
+        for artist in japanese_artists
+        if artist["popularity"] >= popularity_threshold
+    ]
+
+    # ランダムに num_artists 個のアーティストを選択
+    random_artists = random.sample(
+        popular_japanese_artists, min(num_artists, len(popular_japanese_artists))
+    )
+
+    # 名前とIDだけを抽出して返す
+    result_list = [
+        {"name": artist["name"], "id": artist["id"]} for artist in random_artists
+    ]
+
+    return result_list
+
+
+if __name__ == "__main__":
+    print(get_random_artists())
