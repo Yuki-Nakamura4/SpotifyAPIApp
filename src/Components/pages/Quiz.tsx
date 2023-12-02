@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import KeyChart from '../organisms/KeyChart';
 import { getRandomArtists } from '../organisms/RandomArtistAPI';
-import QuizOptionsButton from '../atoms/QuizOptionsButton';
 import QuizOptions from '../molecules/QuizOptions';
 
 type KeyData = {
