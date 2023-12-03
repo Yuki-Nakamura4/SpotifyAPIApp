@@ -11,6 +11,12 @@ type KeyData = {
   fill: string;
 };
 
+type KeyInfo = {
+  name: string;
+  color: string;
+  keySignNum: number;
+};
+
 export const Top: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResult, setSearchResult] = useState<{ 曲名: string; キー: string }[]>([]);
@@ -24,25 +30,20 @@ export const Top: React.FC = () => {
 
   const KeysOrder = useMemo(() => ["C/Am", "G/Em", "D/Bm", "A/F♯m", "E/C♯m", "B/G♯m", "G♭/D♯m", "D♭/B♭m", "A♭/Fm", "E♭/Cm", "B♭/Gm", "F/Dm"], []);
 
-  const keyColors: string[] = [
-    '#fff8ff', '#00CEFF', '#FFFF8A', '#FF596D', '#00FF7E', '#FFC88A',
-    '#BB62FF', '#D4FFF6', '#4F5EFF', '#00B5D4', '#ECEBEC', '#FFF8D8',
-  ];
-
-  const keyMapping: { [key: string]: number } = {
-    'C/Am': 0,
-    'G/Em': 1,
-    'D/Bm': 2,
-    'A/F♯m': 3,
-    'E/C♯m': 4,
-    'B/G♯m': 5,
-    'G♭/D♯m': 6,
-    'D♭/B♭m': 5,
-    'A♭/Fm': 4,
-    'E♭/Cm': 3,
-    'B♭/Gm': 2,
-    'F/Dm': 1,
-  };
+  const KeysInfo: KeyInfo[] = useMemo(() => [
+    { name: "C/Am", color: '#fff8ff', keySignNum: 0 },
+    { name: "G/Em", color: '#00CEFF', keySignNum: 1 },
+    { name: "D/Bm", color: '#FFFF8A', keySignNum: 2 },
+    { name: "A/F♯m", color: '#FF596D', keySignNum: 3 },
+    { name: "E/C♯m", color: '#00FF7E', keySignNum: 4 },
+    { name: "B/G♯m", color: '#FFC88A', keySignNum: 5 },
+    { name: "G♭/D♯m", color: '#BB62FF', keySignNum: 6 },
+    { name: "D♭/B♭m", color: '#D4FFF6', keySignNum: 5 },
+    { name: "A♭/Fm", color: '#4F5EFF', keySignNum: 4 },
+    { name: "E♭/Cm", color: '#00B5D4', keySignNum: 3 },
+    { name: "B♭/Gm", color: '#ECEBEC', keySignNum: 2 },
+    { name: "F/Dm", color: '#FFF8D8', keySignNum: 1 },
+  ], []);
 
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
     const keyCount: { [key: string]: number } = {};
@@ -60,7 +61,7 @@ export const Top: React.FC = () => {
     return KeysOrder.map((key, index) => ({
       name: key,
       value: keyCount[key] || 0,
-      fill: keyColors[index],
+      fill: KeysInfo[index].color,
     }));
   };
 
@@ -70,12 +71,18 @@ export const Top: React.FC = () => {
       const sortedKeyData = getSortedKeyData(keyCount);
       setKeyData(sortedKeyData);
 
-    const totalKeyCount = KeysOrder.reduce((acc, key) => acc + keyMapping[key] * (keyCount[key] || 0), 0);
-    const averageKeyCount = totalKeyCount / searchResult.length;
-    const aveKeySign = averageKeyCount.toFixed(1);
-    setAveKeySign(parseFloat(aveKeySign));
-  }
-}, [searchResult]);
+    // 平均調号数の計算
+    // reduceメソッドは、配列の各要素に対して引数で与えられた関数を実行して、その結果を1つにまとめるメソッド
+    // accは、前回のコールバックの戻り値を引数に受け取る変数
+    // KeyOrder配列の各要素に対して指定された処理を実行し、その結果を1つにまとめる(値の数が一つに減るのでreduceメソッド)
+    // 今回は各キーに設定された調号数(keyMapping[key])と、そのキーの出現回数(keyCount[key])を掛け合わせている
+    // 最後の0は、accの初期値を0に設定している
+      const totalKeyCount = KeysInfo.reduce((acc, { name, keySignNum }) => acc + keySignNum * (keyCount[name] || 0), 0);
+      const averageKeyCount = totalKeyCount / searchResult.length;
+      const aveKeySign = averageKeyCount.toFixed(1);
+      setAveKeySign(parseFloat(aveKeySign));
+    }
+  }, [searchResult]);
 
   const handleArtistClick = async (artistId: string) => {
     setLoading(true);
