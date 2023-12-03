@@ -12,7 +12,7 @@ type KeyDataListProps = {
 
 export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData }) => {
   return (
-    <div className="my-4 mx-4 flex flex-wrap">
+    <div className=" my-4 mx-4 flex flex-wrap">
       {keyData.map((key, index) => (
         <div key={index} className="w-1/2 flex items-center">
           <div

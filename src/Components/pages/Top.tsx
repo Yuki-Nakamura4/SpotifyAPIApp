@@ -20,6 +20,7 @@ export const Top: React.FC = () => {
   const [artistData, setArtistData] = useState<{ name: string; id: string }[]>([]);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
+  const [aveKeySign, setAveKeySign] = useState<number>(0);
 
   const KeysOrder = useMemo(() => ["C/Am", "G/Em", "D/Bm", "A/F♯m", "E/C♯m", "B/G♯m", "G♭/D♯m", "D♭/B♭m", "A♭/Fm", "E♭/Cm", "B♭/Gm", "F/Dm"], []);
 
@@ -27,6 +28,21 @@ export const Top: React.FC = () => {
     '#fff8ff', '#00CEFF', '#FFFF8A', '#FF596D', '#00FF7E', '#FFC88A',
     '#BB62FF', '#D4FFF6', '#4F5EFF', '#00B5D4', '#ECEBEC', '#FFF8D8',
   ];
+
+  const keyMapping: { [key: string]: number } = {
+    'C/Am': 0,
+    'G/Em': 1,
+    'D/Bm': 2,
+    'A/F♯m': 3,
+    'E/C♯m': 4,
+    'B/G♯m': 5,
+    'G♭/D♯m': 6,
+    'D♭/B♭m': 5,
+    'A♭/Fm': 4,
+    'E♭/Cm': 3,
+    'B♭/Gm': 2,
+    'F/Dm': 1,
+  };
 
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
     const keyCount: { [key: string]: number } = {};
@@ -53,8 +69,13 @@ export const Top: React.FC = () => {
       const keyCount = getKeyCount(searchResult);
       const sortedKeyData = getSortedKeyData(keyCount);
       setKeyData(sortedKeyData);
-    }
-  }, [searchResult]);
+
+    const totalKeyCount = KeysOrder.reduce((acc, key) => acc + keyMapping[key] * (keyCount[key] || 0), 0);
+    const averageKeyCount = totalKeyCount / searchResult.length;
+    const aveKeySign = averageKeyCount.toFixed(1);
+    setAveKeySign(parseFloat(aveKeySign));
+  }
+}, [searchResult]);
 
   const handleArtistClick = async (artistId: string) => {
     setLoading(true);
@@ -115,6 +136,7 @@ export const Top: React.FC = () => {
           <h2 className="flex justify-center py-5 text-lg">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
           <div className="flex justify-center">
           <KeyDataList keyData={keyData} />
+          <div className="pr-10">平均調号数: {aveKeySign}</div>
             <div className="mr-2 mt-4 300px">
               <KeyChart  keyData={keyData} />
             </div>
