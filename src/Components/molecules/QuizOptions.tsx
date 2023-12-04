@@ -14,17 +14,15 @@ type KeyData = {
 };
 
 type QuizOptionsProps = {
-  shuffledArtists: Artist[];
+  randomArtists: Artist[];
   handleAnswerClick: (selectedArtistName: string) => void;
 };
 
-const QuizOptions: React.FC<QuizOptionsProps> = ({ shuffledArtists, handleAnswerClick }) => {
+const QuizOptions: React.FC<QuizOptionsProps> = ({ randomArtists, handleAnswerClick }) => {
   return (
     <div className="grid grid-cols-2 gap-4 mt-6">
-      {shuffledArtists.map((artist) => (
-        <>
+      {randomArtists.map((artist) => (
         <QuizOptionsButton key={artist.id} artist={artist} onClick={handleAnswerClick} />
-        </>
       ))}
     </div>
   );

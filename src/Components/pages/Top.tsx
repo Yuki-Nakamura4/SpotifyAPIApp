@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo} from 'react';
 import SearchSection from '../organisms/SearchSection';
 import KeyChart from '../organisms/KeyChart';
 import {KeyDataList} from '../organisms/KeyDataList';
@@ -13,6 +13,8 @@ type KeyData = {
 type KeyInfo = {
   name: string;
   color: string;
+  sharpNum: number;
+  flatNum: number;
   keySignNum: number;
 };
 
@@ -27,11 +29,11 @@ export const Top: React.FC = () => {
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
   const [aveKeySign, setAveKeySign] = useState<number>(0);
 
-  // 12種類のキーのオブジェクトを格納した配列
-  // 名前、色、フラットの数、シャープの数、調号の数を格納
-  // keySignNumをsharpNum+flatNumとしていないのは、G♭/D♯mがあるため
+  // 12種類の調(キー)のオブジェクトを格納した配列
+  // 各調の名前、色、フラットの数、シャープの数、調号の数を格納
+  // keySignNum = sharpNum + flatNumとしていないのは、G♭/D♯mがあるため
   // G♭/D#mは♭6つと#6つとも表現できるのでどちらの解釈も残しておきたいが、
-  // keySignNum=sharpNum+flatNumとすると、どちらかしか表現できないため
+  // keySignNum=sharpNum+flatNumとすると、どちらか一方しか表現できない
   const KeysInfo: KeyInfo[] = useMemo(() => [
     { name: "C/Am", color: '#fff8ff',  sharpNum:0, flatNum:0, keySignNum: 0 },
     { name: "G/Em", color: '#00CEFF',  sharpNum:1, flatNum:0, keySignNum: 1 },
@@ -45,7 +47,7 @@ export const Top: React.FC = () => {
     { name: "E♭/Cm", color: '#00B5D4', sharpNum:0, flatNum:3, keySignNum: 3 },
     { name: "B♭/Gm", color: '#ECEBEC', sharpNum:0, flatNum:2, keySignNum: 2 },
     { name: "F/Dm", color: '#FFF8D8', sharpNum:0, flatNum:1, keySignNum: 1 },
-  ], []);
+  ],[]);
 
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
     const keyCount: { [key: string]: number } = {};
@@ -78,10 +80,13 @@ export const Top: React.FC = () => {
     // accは、前回のコールバックの戻り値を引数に受け取る変数
     // KeyOrder配列の各要素に対して指定された処理を実行し、その結果を1つにまとめる(値の数が一つに減るのでreduceメソッド)
     // 今回は各キーに設定された調号数(keyMapping[key])と、そのキーの出現回数(keyCount[key])を掛け合わせている
-    // 最後の0は、accの初期値を0に設定している
+    // reduce()メソッドの最後の0は、accの初期値を0に設定している
       const totalKeyCount = KeysInfo.reduce((acc, { name, keySignNum }) => acc + keySignNum * (keyCount[name] || 0), 0);
       const averageKeyCount = totalKeyCount / searchResult.length;
+      // toFixed()メソッドは、小数点以下の桁数を指定できる
+      // 指定した桁数になるように四捨五入したものを文字列として返す
       const aveKeySign = averageKeyCount.toFixed(1);
+      // parseFloat()メソッドは、文字列を浮動小数点数に変換する
       setAveKeySign(parseFloat(aveKeySign));
     }
   }, [searchResult]);

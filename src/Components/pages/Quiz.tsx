@@ -18,7 +18,7 @@ type Artist  ={
 export const Quiz: React.FC = () => {
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [shuffledArtists, setShuffledArtists] = useState<Artist[]>([]);
+  const [artistOptions, setartistOptions] = useState<Artist[]>([]);
   const [keyData, setKeyData] = useState<KeyData[]>([]);
 
   const startQuiz = () => {
@@ -40,12 +40,12 @@ export const Quiz: React.FC = () => {
           ],
         };
       });
-    setShuffledArtists(randomArtists);
+    setartistOptions(randomArtists);
     setKeyData([]); // クイズが始まるたびに keyData をリセット
   };
 
   const handleAnswerClick = (selectedArtistName: string) => {
-    if (selectedArtistName === shuffledArtists[currentQuestion].name) {
+    if (selectedArtistName === artistOptions[currentQuestion].name) {
       alert('正解です！');
     } else {
       alert('不正解です！');
@@ -74,7 +74,7 @@ export const Quiz: React.FC = () => {
           {/* 現在の問題のための keychart を描画 */}
           <KeyChart keyData={keyData} />
           {/* 回答オプションを描画 */}
-          <QuizOptions shuffledArtists={shuffledArtists} handleAnswerClick={handleAnswerClick} />
+          <QuizOptions randomArtists={artistOptions} handleAnswerClick={handleAnswerClick} />
         </div>
         
       ) : (

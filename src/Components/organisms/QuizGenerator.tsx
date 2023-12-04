@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Quiz } from '../pages/Quiz';
+import QuizOptions from '../molecules/QuizOptions';
 
-interface Artist {
+type Artist = {
   name: string;
   id: string;
 }
@@ -17,7 +17,7 @@ const QuizGenerator: React.FC = () => {
           const data = await response.json();
           setRandomArtists(data);
         } else {
-          console.error('Failed to fetch data');
+          console.error('データの取得に失敗しました');
         }
       } catch (error) {
         console.error('Error during fetch:', error);
