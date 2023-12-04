@@ -1,21 +1,30 @@
+// QuizGenerator.tsx
 import React, { useEffect, useState } from 'react';
-import QuizOptions from '../molecules/QuizOptions';
 
 type Artist = {
+  id: number;
   name: string;
-  id: string;
+  keyData: KeyData[];
+};
+
+type KeyData = {
+  name: string;
+  value: number;
+  fill: string;
+};
+
+interface QuizGeneratorProps {
+  onFetchData: (data: Artist[]) => void;
 }
 
-const QuizGenerator: React.FC = () => {
-  const [randomArtists, setRandomArtists] = useState<Artist[]>([]);
-
+const QuizGenerator: React.FC<QuizGeneratorProps> = ({ onFetchData }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('http://localhost:8000/get_random_artists');
         if (response.ok) {
           const data = await response.json();
-          setRandomArtists(data);
+          onFetchData(data);
         } else {
           console.error('データの取得に失敗しました');
         }
@@ -25,17 +34,10 @@ const QuizGenerator: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [onFetchData]);
 
-  return (
-    <div>
-      <ul>
-        {randomArtists.map((artist) => (
-          <li key={artist.id}>{artist.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
+  // QuizGeneratorコンポーネントでは何も返さなくてもよい
+  return null;
 };
 
 export default QuizGenerator;

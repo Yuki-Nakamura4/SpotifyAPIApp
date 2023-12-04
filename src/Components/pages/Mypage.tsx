@@ -45,7 +45,7 @@ const Mypage = () => {
     <div>
       <p>マイページよ</p>
       <canvas ref={chartRef} width="400" height="200"></canvas>
-      <QuizGenerator />
+
     </div>
   );
 };
