@@ -3,12 +3,13 @@ import SearchSection from '../organisms/SearchSection';
 import KeyChart from '../organisms/KeyChart';
 import {KeyDataList} from '../organisms/KeyDataList';
 import ResultTable from '../organisms/ResultTable';
-import { KeysInfo } from '../../data/KeysInfo';
+import { keysInfo } from '../../data/KeysInfo';
 
 type KeyData = {
   name: string;
   value: number;
   fill: string;
+  sign: string;
 };
 
 export const Top: React.FC = () => {
@@ -21,8 +22,6 @@ export const Top: React.FC = () => {
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
   const [aveKeySign, setAveKeySign] = useState<number>(0);
-
-
 
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
     const keyCount: { [key: string]: number } = {};
@@ -37,10 +36,11 @@ export const Top: React.FC = () => {
   };
 
   const getSortedKeyData = (keyCount: { [key: string]: number }) => {
-    return KeysInfo.map((keyInfo) => ({
+    return keysInfo.map((keyInfo) => ({
       name: keyInfo.name,
       value: keyCount[keyInfo.name] || 0,
-      fill: keyInfo.color
+      fill: keyInfo.color,
+      sign: keyInfo.keySign
     }));
   };
 
@@ -56,7 +56,7 @@ export const Top: React.FC = () => {
     // KeyOrder配列の各要素に対して指定された処理を実行し、その結果を1つにまとめる(値の数が一つに減るのでreduceメソッド)
     // 今回は各キーに設定された調号数(keyMapping[key])と、そのキーの出現回数(keyCount[key])を掛け合わせている
     // reduce()メソッドの最後の0は、accの初期値を0に設定している
-      const totalKeyCount = KeysInfo.reduce((acc, { name, keySignNum }) => acc + keySignNum * (keyCount[name] || 0), 0);
+      const totalKeyCount = keysInfo.reduce((acc, { name, keySignNum }) => acc + keySignNum * (keyCount[name] || 0), 0);
       const averageKeyCount = totalKeyCount / searchResult.length;
       // toFixed()メソッドは、小数点以下の桁数を指定できる
       // 指定した桁数になるように四捨五入したものを文字列として返す

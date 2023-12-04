@@ -1,29 +1,17 @@
 import React from 'react';
+import {keysInfo} from '../../data/KeysInfo';
 
 type KeyData = {
   name: string;
   value: number;
   fill: string;
+  sign: string;
 };
 
 type KeyDataListProps = {
   keyData: KeyData[];
 };
 
-const keySigns: Record<string, string> = {
-  "C/Am": "♮",
-  "G/Em": "♯",
-  "D/Bm": "♯♯",
-  "A/F♯m": "♯♯♯",
-  "E/C♯m": '♯♯♯♯',
-  "B/G♯m": '♯♯♯♯♯',
-  "G♭/D♯m":'♭♭♭♭♭♭/♯♯♯♯♯♯',
-  "D♭/B♭m":'♭♭♭♭♭',
-  "A♭/Fm":  '♭♭♭♭',
-  "E♭/Cm":'♭♭♭',
-  "B♭/Gm":  '♭♭',
-  "F/Dm": '♭',
-};
 
 export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData }) => {
   return (
@@ -42,7 +30,7 @@ export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData }) => {
             }}
           ></div>
           <span>{key.name}</span>
-          <span className="text-slate-500">　({keySigns[key.name]})</span>
+          <span className="text-slate-500">　({key.sign})</span>
         </div>
       ))}
     </div>

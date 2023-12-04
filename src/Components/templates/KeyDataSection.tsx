@@ -8,6 +8,7 @@ type KeyData = {
     name: string;
     value: number;
     fill: string;
+    sign: string;
 };
 
 interface KeyDataSectionProps {
