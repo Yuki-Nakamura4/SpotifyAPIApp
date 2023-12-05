@@ -1,13 +1,14 @@
-// Quiz.tsx
 import React, { useState, useEffect } from 'react';
 import KeyChart from '../organisms/KeyChart';
 import QuizOptions from '../molecules/QuizOptions';
 import QuizGenerator from '../organisms/QuizGenerator';
+import { keysInfo } from '../../data/KeysInfo';
 
 type KeyData = {
   name: string;
   value: number;
   fill: string;
+  sign: string;
 };
 
 type Artist = {
@@ -23,6 +24,7 @@ export const Quiz: React.FC = () => {
   const [keyData, setKeyData] = useState<KeyData[]>([]);
   const [correctArtist, setCorrectArtist] = useState<Artist | null>(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [searchResult, setSearchResult] = useState<{ 曲名: string; キー: string }[]>([]);
 
   const startQuiz = () => {
     setCorrectArtist(chooseRandomArtist());
@@ -35,12 +37,11 @@ export const Quiz: React.FC = () => {
     return artistOptions[randomIndex];
   };
 
-  const handleFetchData = (data: Artist[]) => {
+  const handleFetchData = async (data: Artist[]) => {
     setArtistOptions(data);
-    setKeyData([]);
   };
 
-  const handleAnswerClick = (selectedArtistName: string) => {
+  const handleAnswerClick = async (selectedArtistName: string) => {
     if (correctArtist && selectedArtistName === correctArtist.name) {
       alert('正解です！');
       setCorrectAnswers(correctAnswers + 1);
@@ -50,7 +51,25 @@ export const Quiz: React.FC = () => {
 
     if (currentQuestion < 4) {
       setCurrentQuestion(currentQuestion + 1);
-      setCorrectArtist(chooseRandomArtist());
+
+      // QuizGeneratorを都度呼び出し、ランダムなアーティストデータを更新
+      const newRandomArtists = await fetchRandomArtists();
+      setArtistOptions(newRandomArtists);
+
+      // アーティストのIDを取得
+      const artistId = correctArtist?.id;
+
+      // バックエンドにアーティストのIDを渡して楽曲データを取得
+      try {
+        const response = await fetch(`http://localhost:8000/get_songs_by_artist/?artist_id=${artistId}`);
+        const data = await response.json();
+        setSearchResult(data);
+      } catch (error) {
+        console.error(error);
+        alert('楽曲データの取得に失敗しました');
+      } finally {
+        setCorrectArtist(chooseRandomArtist());
+      }
     } else {
       alert(`クイズ終了！ ${correctAnswers}問正解！${correctAnswers === 5 ? 'すごい！！' : ''}${correctAnswers === 0 ? '残念......' : ''}`);
       setQuizStarted(false);
@@ -58,27 +77,50 @@ export const Quiz: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/get_random_artists');
-        if (response.ok) {
-          const data = await response.json();
-          handleFetchData(data);
-        } else {
-          console.error('データの取得に失敗しました');
-          alert('keydataの取得に失敗しました');
-        }
-      } catch (error) {
-        console.error('Error during fetch:', error);
-        alert('keydataの取得に失敗しました');
+  const fetchRandomArtists = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/get_random_artists');
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        console.error('データの取得に失敗しました');
+        return [];
       }
-    };
-
-    if (quizStarted) {
-      fetchData();
+    } catch (error) {
+      console.error('Error during fetch:', error);
+      return [];
     }
-  }, [quizStarted, currentQuestion]);
+  };
+
+  const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
+    const keyCount: { [key: string]: number } = {};
+    result.forEach((item: { 曲名: string; キー: string }) => {
+      if (item.キー in keyCount) {
+        keyCount[item.キー] += 1;
+      } else {
+        keyCount[item.キー] = 1;
+      }
+    });
+    return keyCount;
+  };
+
+  const getSortedKeyData = (keyCount: { [key: string]: number }) => {
+    return keysInfo.map((keyInfo) => ({
+      name: keyInfo.name,
+      value: keyCount[keyInfo.name] || 0,
+      fill: keyInfo.color,
+      sign: keyInfo.keySign
+    }));
+  };
+
+  useEffect(() => {
+    if (searchResult.length > 0) {
+      const keyCount = getKeyCount(searchResult);
+      const sortedKeyData = getSortedKeyData(keyCount);
+      setKeyData(sortedKeyData);
+    }
+  }, [searchResult]);
 
   return (
     <div className="flex flex-col items-center justify-center mt-10">
@@ -113,3 +155,5 @@ export const Quiz: React.FC = () => {
     </div>
   );
 };
+
+export default Quiz;

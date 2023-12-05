@@ -1,5 +1,6 @@
 // QuizGenerator.tsx
-import React, { useEffect, useState } from 'react';
+
+import React, { useEffect } from 'react';
 
 type Artist = {
   id: number;
@@ -11,6 +12,7 @@ type KeyData = {
   name: string;
   value: number;
   fill: string;
+  sign: string;
 };
 
 interface QuizGeneratorProps {
@@ -25,6 +27,7 @@ const QuizGenerator: React.FC<QuizGeneratorProps> = ({ onFetchData }) => {
         if (response.ok) {
           const data = await response.json();
           onFetchData(data);
+          console.log(data);
         } else {
           console.error('データの取得に失敗しました');
         }
@@ -32,11 +35,9 @@ const QuizGenerator: React.FC<QuizGeneratorProps> = ({ onFetchData }) => {
         console.error('Error during fetch:', error);
       }
     };
-
     fetchData();
-  }, [onFetchData]);
+  }, []);
 
-  // QuizGeneratorコンポーネントでは何も返さなくてもよい
   return null;
 };
 
