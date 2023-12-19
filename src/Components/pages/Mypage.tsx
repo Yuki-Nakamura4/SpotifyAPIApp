@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import QuizGenerator from '../organisms/QuizGenerator';
 
 const Mypage = () => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
@@ -44,6 +45,7 @@ const Mypage = () => {
     <div>
       <p>マイページよ</p>
       <canvas ref={chartRef} width="400" height="200"></canvas>
+
     </div>
   );
 };
