@@ -18,6 +18,7 @@ type Artist = {
 };
 
 export const Quiz: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [artistOptions, setArtistOptions] = useState<Artist[]>([]);
@@ -38,7 +39,15 @@ export const Quiz: React.FC = () => {
   };
 
   const handleFetchData = async (data: Artist[]) => {
-    setArtistOptions(data);
+    try {
+      setLoading(true);
+      setArtistOptions(data);
+    } catch (error) {
+      console.error('データの取得に失敗しました:', error);
+      alert('データの取得に失敗しました');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAnswerClick = async (selectedArtistName: string) => {
@@ -82,6 +91,7 @@ export const Quiz: React.FC = () => {
       const response = await fetch('http://localhost:8000/get_random_artists');
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         return data;
       } else {
         console.error('データの取得に失敗しました');
@@ -125,7 +135,9 @@ export const Quiz: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center mt-10">
       <h1 className="text-3xl font-bold mb-6">調性クイズ</h1>
-      {quizStarted ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : quizStarted ? (
         <div>
           <KeyChart keyData={keyData} />
           <QuizOptions
@@ -141,6 +153,7 @@ export const Quiz: React.FC = () => {
             表示されるグラフを元にそのアーティストが誰かを 4 択から選択してください
           </p>
           <p className="mb-6 text-center ">問題数は 5 問です</p>
+          <p className="mb-6 text-center ">※ この機能は未完成です</p>
           <div className="flex justify-center">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

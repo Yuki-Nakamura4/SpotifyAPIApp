@@ -4,6 +4,7 @@ import KeyChart from '../organisms/KeyChart';
 import {KeyDataList} from '../organisms/KeyDataList';
 import ResultTable from '../organisms/ResultTable';
 import { keysInfo } from '../../data/KeysInfo';
+import {TailSpin} from 'react-loader-spinner';
 
 type KeyData = {
   name: string;
@@ -22,6 +23,8 @@ export const Top: React.FC = () => {
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
   const [aveKeySign, setAveKeySign] = useState<number>(0);
+  const [flatPercentage, setFlatPercentage] = useState<number>(0);
+  const [sharpPercentage, setSharpPercentage] = useState<number>(0);
 
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
     const keyCount: { [key: string]: number } = {};
@@ -50,19 +53,24 @@ export const Top: React.FC = () => {
       const sortedKeyData = getSortedKeyData(keyCount);
       setKeyData(sortedKeyData);
 
-    // 平均調号数の計算
-    // reduceメソッドは、配列の各要素に対して引数で与えられた関数を実行して、その結果を1つにまとめるメソッド
-    // accは、前回のコールバックの戻り値を引数に受け取る変数
-    // KeyOrder配列の各要素に対して指定された処理を実行し、その結果を1つにまとめる(値の数が一つに減るのでreduceメソッド)
-    // 今回は各キーに設定された調号数(keyMapping[key])と、そのキーの出現回数(keyCount[key])を掛け合わせている
-    // reduce()メソッドの最後の0は、accの初期値を0に設定している
+      // 平均調号数の計算
+      // reduceメソッドは、配列の各要素に対して引数で与えられた関数を実行して、その結果を1つにまとめるメソッド
+      // accは、前回のコールバックの戻り値を引数に受け取る変数
+      // KeyOrder配列の各要素に対して指定された処理を実行し、その結果を1つにまとめる(値の数が一つに減るのでreduceメソッド)
+      // 今回は各キーに設定された調号数(keyMapping[key])と、そのキーの出現回数(keyCount[key])を掛け合わせている
+      // reduce()メソッドの最後の0は、accの初期値を0に設定している
       const totalKeyCount = keysInfo.reduce((acc, { name, keySignNum }) => acc + keySignNum * (keyCount[name] || 0), 0);
       const averageKeyCount = totalKeyCount / searchResult.length;
-      // toFixed()メソッドは、小数点以下の桁数を指定できる
-      // 指定した桁数になるように四捨五入したものを文字列として返す
-      const aveKeySign = averageKeyCount.toFixed(1);
-      // parseFloat()メソッドは、文字列を浮動小数点数に変換する
-      setAveKeySign(parseFloat(aveKeySign));
+      const aveKeySign = averageKeyCount.toFixed(1); // toFixed()メソッドは、指定した小数点以下の桁数になるように四捨五入したものを文字列として返す
+      setAveKeySign(parseFloat(aveKeySign)); // parseFloat()メソッドは、文字列を浮動小数点数に変換する
+
+      // フラットとシャープの比率を計算
+      const flatCount = keysInfo.reduce((acc, { name, flatNum }) => acc + flatNum * (keyCount[name] || 0), 0);
+      const sharpCount = keysInfo.reduce((acc, { name, sharpNum }) => acc + sharpNum * (keyCount[name] || 0), 0);
+      const flatParcentage = (flatCount / (flatCount + sharpCount)) * 100;
+      const sharpParcentage = 100 - flatParcentage;
+      setFlatPercentage(flatParcentage);
+      setSharpPercentage(sharpParcentage);
     }
   }, [searchResult]);
 
@@ -113,10 +121,13 @@ export const Top: React.FC = () => {
       {errorMessage ? (
         <div className="flex justify-center mt-10">{errorMessage}</div>
       ) : loading ? (
-        <div className="flex justify-center mt-10">
-          <div>
-            データを取得中です。しばらくお待ちください
-          </div>
+        <div className="flex justify-center">
+        <div>
+        <div className="my-8">読み込み中......</div>
+        <TailSpin 
+        color="blue"
+        radius="2"/>
+        </div>
         </div>
       ) : searchPerformed && searchResult.length === 0 ? (
         <div>検索結果が0件でした</div>
@@ -126,6 +137,10 @@ export const Top: React.FC = () => {
           <div className="flex justify-center">
           <KeyDataList keyData={keyData} />
           <div className="pr-10">平均調号数: {aveKeySign}</div>
+          <div>
+          <div>フラット: {flatPercentage.toFixed(1)}% </div>
+          <div>シャープ: {sharpPercentage.toFixed(1)}%</div>
+          </div>
             <div className="mr-2 mt-4 300px">
               <KeyChart  keyData={keyData} />
             </div>
