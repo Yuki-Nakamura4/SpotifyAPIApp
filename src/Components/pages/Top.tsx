@@ -7,7 +7,6 @@ import { keysInfo } from '../../data/KeysInfo';
 import { TailSpin } from 'react-loader-spinner';
 import useFetchArtistData from '../../hooks/useFetchartistData';
 
-
 type KeyData = {
   name: string;
   value: number;
@@ -113,8 +112,8 @@ export const Top: React.FC = () => {
         artistData={artistData} 
         handleArtistClick={handleArtistClick} 
       />
-      {errorMessage ? (
-        <div className="flex justify-center mt-10">{errorMessage}</div>
+      {songsErrorMessage ? (
+        <div className="flex justify-center mt-10">{songsErrorMessage}</div>
       ) : loading ? (
         <div className="flex justify-center">
         <div>
