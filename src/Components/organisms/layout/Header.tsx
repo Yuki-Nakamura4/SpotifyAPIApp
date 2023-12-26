@@ -12,7 +12,6 @@ export const Header = memo(() => {
     const navigate = useNavigate();
 
     // 不要な再レンダリングが走らないようuseCallbackでラップ
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const onClickTop = useCallback(() => navigate("/"),[]);
     const onClickMypage = useCallback(() => navigate("/mypage"),[]);
     const onClickQuiz = useCallback(() => navigate("/quiz"),[]);

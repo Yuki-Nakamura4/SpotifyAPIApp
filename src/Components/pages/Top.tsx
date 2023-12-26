@@ -1,10 +1,12 @@
 import React, { useState, useEffect} from 'react';
 import SearchSection from '../organisms/SearchSection';
 import KeyChart from '../organisms/KeyChart';
-import {KeyDataList} from '../organisms/KeyDataList';
+import { KeyDataList } from '../organisms/KeyDataList';
 import ResultTable from '../organisms/ResultTable';
 import { keysInfo } from '../../data/KeysInfo';
-import {TailSpin} from 'react-loader-spinner';
+import { TailSpin } from 'react-loader-spinner';
+import useFetchArtistData from '../../hooks/useFetchartistData';
+
 
 type KeyData = {
   name: string;
@@ -13,18 +15,23 @@ type KeyData = {
   sign: string;
 };
 
+type ArtistData = {
+  id: string;
+  name: string;
+}[];
+
 export const Top: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResult, setSearchResult] = useState<{ 曲名: string; キー: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [keyData, setKeyData] = useState<KeyData[]>([]);
-  const [artistData, setArtistData] = useState<{ name: string; id: string }[]>([]);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
   const [aveKeySign, setAveKeySign] = useState<number>(0);
   const [flatPercentage, setFlatPercentage] = useState<number>(0);
   const [sharpPercentage, setSharpPercentage] = useState<number>(0);
+  const { artistData, errorMessage }: { artistData: ArtistData; errorMessage: string } = useFetchArtistData(searchQuery);
+  const [songsErrorMessage, setSongsErrorMessage] = useState<string>('');
 
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
     const keyCount: { [key: string]: number } = {};
@@ -47,6 +54,11 @@ export const Top: React.FC = () => {
     }));
   };
 
+  // useEffectは副作用を引き起こす可能性のあるコードを隔離し、それがいつ実行されるべきかを明示的に制御する
+  // 副作用とは、コンポーネントの状態を変更することや、APIの呼び出し、DOMの変更などのこと
+  // 今回はコンポーネントの状態を変更することを副作用としている
+  // useEffectの処理はコンポーネントがレンダリングされた"後に"実行される)
+  // また、第二引数のsearchResultが変更されたときにも実行される
   useEffect(() => {
     if (searchResult.length > 0) {
       const keyCount = getKeyCount(searchResult);
@@ -74,6 +86,7 @@ export const Top: React.FC = () => {
     }
   }, [searchResult]);
 
+  // artistIdを引数にして、そのアーティストの楽曲の調データを取得する
   const handleArtistClick = async (artistId: string) => {
     setLoading(true);
     try {
@@ -86,29 +99,11 @@ export const Top: React.FC = () => {
       setSelectedArtist(artistName || null);
     } catch (error) {
       console.error(error);
-      setErrorMessage('データの取得に失敗しました');
+      setSongsErrorMessage('データの取得に失敗しました');
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchArtistData = async () => {
-      if (searchQuery !== '') {
-        try {
-          const response = await fetch(`http://localhost:8000/get_artists_name/?artist=${searchQuery}`);
-          const data = await response.json();
-          setArtistData(data);
-        } catch (error) {
-          console.error(error);
-          setErrorMessage('データの取得に失敗しました');
-        }
-      } else {
-        setArtistData([]);
-      }
-    };
-    fetchArtistData();
-  }, [searchQuery]);
 
   return (
     <div>
@@ -136,6 +131,7 @@ export const Top: React.FC = () => {
           <h2 className="flex justify-center py-5 text-lg">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
           <div className="flex justify-center">
           <KeyDataList keyData={keyData} />
+          {/* 多いのか少ないのか分かりずらいから図示した方がいいのかも*/}
           <div className="pr-10">平均調号数: {aveKeySign}</div>
           <div>
           <div>フラット: {flatPercentage.toFixed(1)}% </div>

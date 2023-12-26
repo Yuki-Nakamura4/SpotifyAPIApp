@@ -1,0 +1,33 @@
+import { useState, useEffect } from 'react';
+
+type Artist = {
+    id: string;
+    name: string;
+};
+
+const useFetchArtistData = (searchQuery: string) => {
+  const [artistData, setArtistData] = useState<Artist[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    const fetchArtistData = async () => {
+      if (searchQuery !== '') {
+        try {
+          const response = await fetch(`http://localhost:8000/get_artists_name/?artist=${searchQuery}`);
+          const data = await response.json();
+          setArtistData(data);
+        } catch (error) {
+          console.error(error);
+          setErrorMessage('データの取得に失敗しました');
+        }
+      } else {
+        setArtistData([]);
+      }
+    };
+    fetchArtistData();
+  }, [searchQuery]);
+
+  return { artistData, errorMessage };
+};
+
+export default useFetchArtistData;
