@@ -23,8 +23,5 @@ export type KeysColor = {
     { name: "B♭/Gm", color: storedUsersColor["B♭/Gm"] || '#ECEBEC' },
     { name: "F/Dm", color: storedUsersColor["F/Dm"] || '#FFF8D8' },
   ];
-  
-  export const updateLocalStorage = (newColors: UsersColor) => {
-    localStorage.setItem('userColors', JSON.stringify(newColors));
-  };
+
   
