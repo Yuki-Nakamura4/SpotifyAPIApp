@@ -12,7 +12,6 @@ export const Header = memo(() => {
     const navigate = useNavigate();
 
     // 不要な再レンダリングが走らないようuseCallbackでラップ
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const onClickTop = useCallback(() => navigate("/"),[]);
     const onClickMypage = useCallback(() => navigate("/mypage"),[]);
     const onClickQuiz = useCallback(() => navigate("/quiz"),[]);
@@ -31,7 +30,7 @@ export const Header = memo(() => {
     </div>
       <div className="mt-5 mb-4 flex justify-center space-x-8">
       <p className={`text-lg ${isTopPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickTop}>TOP</p>
-      <p className={`text-lg ${isMyPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickMypage}>MY PAGE</p>
+      {/* <p className={`text-lg ${isMyPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickMypage}>MY PAGE</p> */}
       <p className={`text-lg ${isQuiz ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickQuiz}>QUIZ</p>
       <p className={`text-lg ${isSettings ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickSettings}>SETTINGS</p>
       </div>
