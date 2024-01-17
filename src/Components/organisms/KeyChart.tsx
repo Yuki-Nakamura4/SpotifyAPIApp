@@ -7,11 +7,11 @@ type KeyData = {
   fill: string;
 };
 
-interface KeyChartProps {
+type KeyChartProps = {
   keyData: KeyData[];
 }
 
-const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
+export const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
   useEffect(() => {
     // keyData が変更されたときの処理を追加する
     console.log('keyData changed:', keyData);
@@ -46,5 +46,3 @@ const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
 
   return <PolarArea data={chartData} options={options} />;
 };
-
-export default KeyChart;

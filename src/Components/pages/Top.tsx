@@ -1,12 +1,14 @@
 import React, { useState, useEffect} from 'react';
-import SearchSection from '../organisms/SearchSection';
-import KeyChart from '../organisms/KeyChart';
+import { SearchSection } from '../organisms/SearchSection';
+import { KeyChart } from '../organisms/KeyChart';
 import { KeyDataList } from '../organisms/KeyDataList';
-import ResultTable from '../organisms/ResultTable';
+import { ResultTable } from '../organisms/ResultTable';
 import { keysInfo } from '../../data/KeysInfo';
 import { TailSpin } from 'react-loader-spinner';
-import useFetchArtistData from '../../hooks/useFetchartistData';
+import { useFetchArtistData } from '../../hooks/useFetchArtistData';
+import { useFetchSongsByArtist } from '../../hooks/useFetchSongsByArtist';
 
+// typeかinterfaceか、typeの方が定義できる型の範囲も広いため、現在はtypeが主流
 type KeyData = {
   name: string;
   value: number;
@@ -85,24 +87,15 @@ export const Top: React.FC = () => {
     }
   }, [searchResult]);
 
-  // artistIdを引数にして、そのアーティストの楽曲の調データを取得する
-  const handleArtistClick = async (artistId: string) => {
-    setLoading(true);
-    try {
-      const response = await fetch(`http://localhost:8000/get_songs_by_artist/?artist_id=${artistId}`);
-      const data = await response.json();
-      setSearchResult(data);
-      setSearchQuery('');
-      setSearchPerformed(true);
-      const artistName = artistData.find(artist => artist.id === artistId)?.name;
-      setSelectedArtist(artistName || null);
-    } catch (error) {
-      console.error(error);
-      setSongsErrorMessage('データの取得に失敗しました');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleArtistClick = useFetchSongsByArtist({
+    setLoading,
+    setSearchResult,
+    setSearchQuery,
+    setSearchPerformed,
+    setSelectedArtist,
+    setSongsErrorMessage,
+    artistData,
+  });
 
   return (
     <div>
@@ -115,9 +108,8 @@ export const Top: React.FC = () => {
       {songsErrorMessage ? (
         <div className="flex justify-center mt-10">{songsErrorMessage}</div>
       ) : loading ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-10 ">
         <div>
-        <div className="my-8">読み込み中......</div>
         <TailSpin 
         color="blue"
         radius="2"/>

@@ -5,7 +5,7 @@ type Artist = {
     name: string;
 };
 
-const useFetchArtistData = (searchQuery: string) => {
+export const useFetchArtistData = (searchQuery: string) => {
   const [artistData, setArtistData] = useState<Artist[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -29,5 +29,3 @@ const useFetchArtistData = (searchQuery: string) => {
 
   return { artistData, errorMessage };
 };
-
-export default useFetchArtistData;

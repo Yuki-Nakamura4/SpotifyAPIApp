@@ -1,11 +1,11 @@
 // ResultTable.tsx
 import React from 'react';
 
-interface ResultTableProps {
+type ResultTableProps = {
   searchResult: { 曲名: string; キー: string }[];
 }
 
-const ResultTable: React.FC<ResultTableProps> = ({ searchResult }) => (
+export const ResultTable: React.FC<ResultTableProps> = ({ searchResult }) => (
   <div className="m-8 sm:mx-52">
     <div className="max-h-96 overflow-y-auto">
       <table className="w-full border-collapse border">
@@ -27,5 +27,3 @@ const ResultTable: React.FC<ResultTableProps> = ({ searchResult }) => (
     </div>
   </div>
 );
-
-export default ResultTable;

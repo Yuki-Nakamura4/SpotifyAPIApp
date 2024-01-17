@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import KeyChart from '../organisms/KeyChart';
-import QuizOptions from '../molecules/QuizOptions';
-import QuizGenerator from '../organisms/QuizGenerator';
+import { KeyChart } from '../organisms/KeyChart';
+import { QuizOptions } from '../molecules/QuizOptions';
+import { QuizGenerator } from '../organisms/QuizGenerator';
 import { keysInfo } from '../../data/KeysInfo';
 
 type KeyData = {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { keysColor as initialKeysColor, UsersColor} from '../../data/KeysColor';
+import { keysColor as initialKeysColor, UsersColor } from '../../data/KeysColor';
 
 export const Settings = () => {
   const [usersColors, setUsersColors] = useState<UsersColor>({});
@@ -10,6 +10,10 @@ export const Settings = () => {
     const storedColors: UsersColor = JSON.parse(localStorage.getItem('userColors') || '{}');
     setUsersColors(storedColors);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('userColors', JSON.stringify(usersColors));
+  }, [usersColors]);
 
   const handleColorChange = (keyName: string) => (
     event: React.ChangeEvent<HTMLInputElement>

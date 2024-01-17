@@ -1,8 +1,8 @@
 // KeyDataSection.tsx
 import React from 'react';
-import {KeyDataList} from '../organisms/KeyDataList';
-import KeyChart from '../organisms/KeyChart';
-import ResultTable from '../organisms/ResultTable';
+import { KeyDataList } from '../organisms/KeyDataList';
+import { KeyChart }from '../organisms/KeyChart';
+import { ResultTable } from '../organisms/ResultTable';
 
 type KeyData = {
     name: string;
@@ -11,7 +11,7 @@ type KeyData = {
     sign: string;
 };
 
-interface KeyDataSectionProps {
+type KeyDataSectionProps = {
   keyData: KeyData[];
   searchResult: { 曲名: string; キー: string }[];
 }

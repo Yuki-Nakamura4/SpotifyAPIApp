@@ -1,4 +1,3 @@
-// QuizButton.tsx
 import React from 'react';
 
 type KeyData = {
@@ -18,7 +17,7 @@ type QuizOptionsButtonProps = {
   onClick: (name: string) => void;
 };
 
-const QuizOptionsButton: React.FC<QuizOptionsButtonProps> = ({ artist, onClick }) => {
+export const QuizOptionsButton: React.FC<QuizOptionsButtonProps> = ({ artist, onClick }) => {
   return (
     <button
       key={artist.id}
@@ -29,5 +28,3 @@ const QuizOptionsButton: React.FC<QuizOptionsButtonProps> = ({ artist, onClick }
     </button>
   );
 };
-
-export default QuizOptionsButton;
