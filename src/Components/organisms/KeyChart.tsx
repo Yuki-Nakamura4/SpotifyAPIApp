@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { PolarArea } from 'react-chartjs-2';
 
 type KeyData = {
@@ -12,12 +12,6 @@ type KeyChartProps = {
 }
 
 export const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
-  useEffect(() => {
-    // keyData が変更されたときの処理を追加する
-    console.log('keyData changed:', keyData);
-    // 例: グラフの再描画などが必要な場合はここに処理を追加する
-  }, [keyData]);
-
   const chartData = {
     labels: keyData.map(entry => entry.name),
     datasets: [

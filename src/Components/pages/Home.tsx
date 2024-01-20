@@ -21,7 +21,7 @@ type ArtistData = {
   name: string;
 }[];
 
-export const Top: React.FC = () => {
+export const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResult, setSearchResult] = useState<{ 曲名: string; キー: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -138,5 +138,3 @@ export const Top: React.FC = () => {
     </div>
   );
 };
-
-export default Top;
