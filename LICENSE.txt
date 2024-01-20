@@ -1,0 +1,1 @@
+"react-chartjs-2": "^5.2.0" | MIT License | https://github.com/reactchartjs/react-chartjs-2/blob/master/LICENSE
