@@ -3,6 +3,8 @@ import random
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+
+# spotipyはSpotifyAPIをPythonで利用するためのライブラリ
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
@@ -15,15 +17,17 @@ origins = [
     "http://localhost:3000",
 ]
 
+# CORSミドルウェアを追加して、クロスオリジンリクエストを許可する
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins,  # ローカル環境での開発時のみ許可
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
+# 引数として与えられた数値(key_sig_num)を調の名前(key_names)に変換する関数
 def key_number_to_name(key_sig_num):
     key_names = [
         "C/Am",
@@ -75,7 +79,9 @@ def search_artist(artist: str = Query(..., title="アーティスト名")):
             key_name = key_number_to_name(key_sig_num)
             response_data.append({"曲名": track_name, "キー": key_name})
         else:
-            response_data.append({"曲名": track_name, "キー": "キー情報が提供されていません"})
+            response_data.append(
+                {"曲名": track_name, "キー": "キー情報が提供されていません"}
+            )
 
     return response_data
 
@@ -119,9 +125,7 @@ def get_songs_by_artist(artist_id: str = Query(..., title="アーティストID"
 
     response_data = []
 
-    # 各アルバムに対して
     for album in albums["items"]:
-        # アルバムのすべての曲を取得
         tracks = sp.album_tracks(album["id"])
 
         # 各曲の曲名とキーをクライアントに返すデータに追加
@@ -141,13 +145,15 @@ def get_songs_by_artist(artist_id: str = Query(..., title="アーティストID"
                 # たとえばヘ短調の場合は5-9=-4を12で割った余りは8なのでキー番号は8
                 # キー番号8は変イ長調なのでキー名はA♭/Fm
                 # SpotifyAPIのkeyは主音で判定している(ヘ長調もヘ短調もkey=5となってしまう)ため、
-                # modeを合わせて考慮することで長調と短調を区別できるようになる
+                # mode(長調か短調かを示す値)を合わせて考慮することで正確な調を区別できるようになる
                 elif mode_number == 0:
                     key_sig_num = (key_number - 9) % 12
                 key_name = key_number_to_name(key_sig_num)
                 response_data.append({"曲名": track_name, "キー": key_name})
             else:
-                response_data.append({"曲名": track_name, "キー": "キー情報が提供されていません"})
+                response_data.append(
+                    {"曲名": track_name, "キー": "キー情報が提供されていません"}
+                )
 
     return response_data
 
