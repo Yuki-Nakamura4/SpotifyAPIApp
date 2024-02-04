@@ -99,12 +99,12 @@ export const Home: React.FC = () => {
         <div>検索結果が0件でした</div>
       ) : keyData.length > 0 ? (
         <div>
-          <h2 className="flex justify-center py-5 text-lg text-slate-800">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
+          <h2 className="flex justify-center py-5 text-xl text-slate-800">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
           <div className="flex justify-center">
           <KeyDataList keyData={keyData} />
           {/* 多いのか少ないのか分かりずらいから図示した方がいいのかも*/}
-          <div className="pr-10">平均調号数: {aveKeySign}</div>
-          <div>
+          <div className="pr-10 text-slate-700">平均調号数: {aveKeySign}</div>
+          <div className="text-slate-700">
           <div>フラット: {flatPercentage.toFixed(1)}% </div>
           <div>シャープ: {sharpPercentage.toFixed(1)}%</div>
           </div>
