@@ -1,17 +1,9 @@
 import React from 'react';
-import {keysInfo} from '../../data/KeysInfo';
-
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-  sign: string;
-};
+import {KeyData} from '../../types/KeyData';
 
 type KeyDataListProps = {
   keyData: KeyData[];
 };
-
 
 export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData }) => {
   return (
@@ -30,7 +22,7 @@ export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData }) => {
             }}
           ></div>
           <span>{key.name}</span>
-          <span className="text-slate-500">　({key.sign})</span>
+          <span className="text-slate-500"> ({key.sign})</span>
         </div>
       ))}
     </div>

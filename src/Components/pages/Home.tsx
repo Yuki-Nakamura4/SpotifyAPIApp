@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { SearchSection } from '../organisms/SearchSection';
 import { KeyChart } from '../organisms/KeyChart';
 import { KeyDataList } from '../organisms/KeyDataList';
-import { ResultTable } from '../organisms/ResultTable';
+import { SongsTable } from '../organisms/SongsTable';
 import { keysInfo } from '../../data/KeysInfo';
 import { TailSpin } from 'react-loader-spinner';
 import { useFetchArtistData } from '../../hooks/useFetchArtistData';
@@ -91,7 +91,7 @@ export const Home: React.FC = () => {
         <div className="flex justify-center mt-10 ">
         <div>
         <TailSpin 
-        color="blue"
+        color="rgb(6 182 212)"
         radius="2"/>
         </div>
         </div>
@@ -99,7 +99,7 @@ export const Home: React.FC = () => {
         <div>検索結果が0件でした</div>
       ) : keyData.length > 0 ? (
         <div>
-          <h2 className="flex justify-center py-5 text-lg">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
+          <h2 className="flex justify-center py-5 text-lg text-slate-800">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
           <div className="flex justify-center">
           <KeyDataList keyData={keyData} />
           {/* 多いのか少ないのか分かりずらいから図示した方がいいのかも*/}
@@ -112,7 +112,7 @@ export const Home: React.FC = () => {
               <KeyChart  keyData={keyData} />
             </div>
           </div>
-          <ResultTable searchResult={searchResult} />
+          <SongsTable searchResult={searchResult} />
         </div>
       ) : null}
     </div>

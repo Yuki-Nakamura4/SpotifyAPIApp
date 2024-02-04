@@ -2,7 +2,7 @@
 import React from 'react';
 import { KeyDataList } from '../organisms/KeyDataList';
 import { KeyChart }from '../organisms/KeyChart';
-import { ResultTable } from '../organisms/ResultTable';
+import { SongsTable } from '../organisms/SongsTable';
 
 type KeyData = {
     name: string;
@@ -23,7 +23,7 @@ const KeyDataSection: React.FC<KeyDataSectionProps> = ({ keyData, searchResult }
       <div className="mr-2 mt-4 300px">
         <KeyChart keyData={keyData} />
       </div>
-      <ResultTable searchResult={searchResult} />
+      <SongsTable searchResult={searchResult} />
     </div>
   );
 };
