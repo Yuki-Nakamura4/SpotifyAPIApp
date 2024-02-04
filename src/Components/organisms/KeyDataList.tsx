@@ -10,8 +10,7 @@ export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData }) => {
     // flex-wrap: flexアイテムが折り返し表示されるようにする
     <div className=" my-4 mx-4 flex flex-wrap text-slate-800">
       {keyData.map((key, index) => (
-        // w-1/2: 幅を親要素の半分にする
-        //　つまり、1行に2つの要素を表示して折り返し表示する
+        // w-1/2: 幅を親要素の半分にする => 1行に2つの要素を表示して折り返し表示
         <div key={index} className="w-1/2 flex items-center">
           <div
             style={{

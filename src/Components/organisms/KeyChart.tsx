@@ -1,11 +1,6 @@
 import React from 'react';
 import { PolarArea } from 'react-chartjs-2';
-
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-};
+import { KeyData } from '../../types/KeyData';
 
 type KeyChartProps = {
   keyData: KeyData[];
@@ -22,6 +17,7 @@ export const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
     ],
   };
 
+  // グラフの設定
   const options: {} = {
     plugins: {
       legend: {
@@ -30,7 +26,7 @@ export const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
     },
     scales: {
       r: {
-        startAngle: -15,
+        startAngle: -15, // 開始角度を15度ずらしてCを真上にし、五度圏の形にする
         ticks: {
           display: false,
         },

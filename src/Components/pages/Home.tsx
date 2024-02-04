@@ -100,16 +100,24 @@ export const Home: React.FC = () => {
       ) : keyData.length > 0 ? (
         <div>
           <h2 className="flex justify-center py-5 text-xl text-slate-800">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
-          <div className="flex justify-center">
-          <KeyDataList keyData={keyData} />
+            <div className="flex justify-center">
+              <div className="w-2/5 bg-slate-50 px-4">
+                <KeyDataList keyData={keyData} />
+              </div>
+            </div>
+          <div className="flex justify-center mt-4">
           {/* 多いのか少ないのか分かりずらいから図示した方がいいのかも*/}
-          <div className="pr-10 text-slate-700">平均調号数: {aveKeySign}</div>
-          <div className="text-slate-700">
-          <div>フラット: {flatPercentage.toFixed(1)}% </div>
-          <div>シャープ: {sharpPercentage.toFixed(1)}%</div>
+          <div className="pr-10 text-lg text-slate-600 flex items-center">平均調号数: {aveKeySign}</div>
+            <div>
+              <div className="text-sky-700">フラット ♭: {flatPercentage.toFixed(1)}% </div>
+              <div className="text-amber-600">シャープ ♯: {sharpPercentage.toFixed(1)}%</div>
+            </div>
           </div>
-            <div className="mr-2 mt-4 300px">
-              <KeyChart  keyData={keyData} />
+          <div className="flex justify-center mt-4">
+            <div className="w-2/5 ">
+              <div className="w-full flex justify-center">
+              <KeyChart  keyData={keyData}/>
+              </div>
             </div>
           </div>
           <SongsTable searchResult={searchResult} />
