@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { QuizGenerator } from '../organisms/QuizGenerator';
 
-const Mypage = () => {
+export const Mypage = () => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
@@ -48,5 +48,3 @@ const Mypage = () => {
     </div>
   );
 };
-
-export default Mypage;

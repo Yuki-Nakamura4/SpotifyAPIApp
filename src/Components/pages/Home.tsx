@@ -7,19 +7,8 @@ import { keysInfo } from '../../data/KeysInfo';
 import { TailSpin } from 'react-loader-spinner';
 import { useFetchArtistData } from '../../hooks/useFetchArtistData';
 import { useFetchSongsByArtist } from '../../hooks/useFetchSongsByArtist';
-
-// typeかinterfaceか、typeの方が定義できる型の範囲も広いため、現在はtypeが主流
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-  sign: string;
-};
-
-type ArtistData = {
-  id: string;
-  name: string;
-}[];
+import { KeyData } from '../../types/KeyData';
+import { ArtistData } from '../../types/ArtistData';
 
 export const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -31,7 +20,7 @@ export const Home: React.FC = () => {
   const [aveKeySign, setAveKeySign] = useState<number>(0);
   const [flatPercentage, setFlatPercentage] = useState<number>(0);
   const [sharpPercentage, setSharpPercentage] = useState<number>(0);
-  const { artistData, errorMessage }: { artistData: ArtistData; errorMessage: string } = useFetchArtistData(searchQuery);
+  const { artistData}: { artistData: ArtistData} = useFetchArtistData(searchQuery);
   const [songsErrorMessage, setSongsErrorMessage] = useState<string>('');
 
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
@@ -55,10 +44,7 @@ export const Home: React.FC = () => {
     }));
   };
 
-  // useEffectは副作用を引き起こす可能性のあるコードを隔離し、それがいつ実行されるべきかを明示的に制御する
-  // 副作用とは、コンポーネントの状態を変更することや、APIの呼び出し、DOMの変更などのこと
-  // useEffectの処理はコンポーネントがレンダリングされた"後に"実行される)
-  // また、第二引数のsearchResultが変更されたときにも実行される
+  // useEffectは初回レンダリング時と、再レンダリング時に第二引数の値に差分があったときのみ実行される
   useEffect(() => {
     if (searchResult.length > 0) {
       const keyCount = getKeyCount(searchResult);
@@ -66,15 +52,10 @@ export const Home: React.FC = () => {
       setKeyData(sortedKeyData);
 
       // 平均調号数の計算
-      // reduceメソッドは、配列の各要素に対して引数で与えられた関数を実行して、その結果を1つにまとめるメソッド
-      // accは、前回のコールバックの戻り値を引数に受け取る変数
-      // KeyOrder配列の各要素に対して指定された処理を実行し、その結果を1つにまとめる(値の数が一つに減るのでreduceメソッド)
-      // 今回は各キーに設定された調号数(keyMapping[key])と、そのキーの出現回数(keyCount[key])を掛け合わせている
-      // reduce()メソッドの最後の0は、accの初期値を0に設定している
       const totalKeyCount = keysInfo.reduce((acc, { name, keySignNum }) => acc + keySignNum * (keyCount[name] || 0), 0);
       const averageKeyCount = totalKeyCount / searchResult.length;
-      const aveKeySign = averageKeyCount.toFixed(1); // toFixed()メソッドは、指定した小数点以下の桁数になるように四捨五入したものを文字列として返す
-      setAveKeySign(parseFloat(aveKeySign)); // parseFloat()メソッドは、文字列を浮動小数点数に変換する
+      const aveKeySign = averageKeyCount.toFixed(1);
+      setAveKeySign(parseFloat(aveKeySign));
 
       // フラットとシャープの比率を計算
       const flatCount = keysInfo.reduce((acc, { name, flatNum }) => acc + flatNum * (keyCount[name] || 0), 0);

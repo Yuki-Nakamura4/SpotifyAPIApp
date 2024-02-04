@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
-type Artist = {
+type ArtistData = {
     id: string;
     name: string;
 };
 
 export const useFetchArtistData = (searchQuery: string) => {
-  const [artistData, setArtistData] = useState<Artist[]>([]);
+  const [artistData, setArtistData] = useState<ArtistData[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {

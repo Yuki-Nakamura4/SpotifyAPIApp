@@ -3,13 +3,7 @@ import { KeyChart } from '../organisms/KeyChart';
 import { QuizOptions } from '../molecules/QuizOptions';
 import { QuizGenerator } from '../organisms/QuizGenerator';
 import { keysInfo } from '../../data/KeysInfo';
-
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-  sign: string;
-};
+import { KeyData } from '../../types/KeyData';
 
 type Artist = {
   id: number;
@@ -168,5 +162,3 @@ export const Quiz: React.FC = () => {
     </div>
   );
 };
-
-export default Quiz;
