@@ -47,6 +47,7 @@ export const Home: React.FC = () => {
   };
 
   // useEffectは初回レンダリング時と、レンダリング時に第二引数の値に差分があったときのみ実行される
+  // 外部APIからデータを取得する処理はuseEffect内で行う
   useEffect(() => {
     if (searchResult.length > 0) {
       const keyCount = getKeyCount(searchResult);
@@ -79,6 +80,8 @@ export const Home: React.FC = () => {
     artistData,
   });
 
+  const keyCount = getKeyCount(searchResult);
+
   return (
     <div>
       <SearchSection 
@@ -98,13 +101,13 @@ export const Home: React.FC = () => {
         </div>
         </div>
       ) : searchPerformed && searchResult.length === 0 ? (
-        <div>検索結果が0件でした</div>
+        <div className="flex justify-center mt-4">検索結果が0件でした</div>
       ) : keyData.length > 0 ? (
         <div>
           <h2 className="flex justify-center py-5 text-xl text-slate-800">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
             <div className="flex justify-center">
-              <div className="w-2/5 bg-slate-50 px-4">
-                <KeyDataList keyData={keyData} />
+              <div className="lg:w-2/5 md:w-2/3 bg-slate-50 px-4">
+                <KeyDataList keyData={keyData} keyCount={keyCount}/>
               </div>
             </div>
           <div className="flex justify-center mt-4">
@@ -116,7 +119,7 @@ export const Home: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-center mt-4">
-            <div className="w-2/5 ">
+            <div className="md:w-2/5 sm:w-1/2">
               <div className="w-full flex justify-center">
               <KeyChart  keyData={keyData}/>
               </div>
