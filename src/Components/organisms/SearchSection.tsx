@@ -26,5 +26,3 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
     </div>
   );
 };
-
-export default SearchSection;

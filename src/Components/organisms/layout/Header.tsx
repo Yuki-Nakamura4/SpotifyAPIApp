@@ -13,12 +13,12 @@ export const Header = memo(() => {
 
     // 不要な再レンダリングが走らないようuseCallbackでラップ
     const onClickTop = useCallback(() => navigate("/"),[]);
-    const onClickMypage = useCallback(() => navigate("/mypage"),[]);
+//    const onClickMypage = useCallback(() => navigate("/mypage"),[]);
     const onClickQuiz = useCallback(() => navigate("/quiz"),[]);
     const onClickSettings = useCallback(() => navigate("/settings"),[]);
 
     const isTopPage = location.pathname === "/";
-    const isMyPage = location.pathname === "/mypage";
+//    const isMyPage = location.pathname === "/mypage";
     const isQuiz = location.pathname === "/quiz";
     const isSettings = location.pathname === "/settings";
 

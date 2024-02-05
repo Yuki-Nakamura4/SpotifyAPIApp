@@ -1,12 +1,7 @@
 // QuizOptions.tsx
 import React from 'react';
 import { QuizOptionsButton } from '../atoms/QuizOptionsButton';
-
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-};
+import { KeyData } from '../../types/KeyData';
 
 type Artist = {
   id: number;

@@ -1,10 +1,5 @@
 import React from 'react';
-
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-};
+import { KeyData } from '../../types/KeyData';
 
 type Artist = {
   id: number;

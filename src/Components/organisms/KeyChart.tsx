@@ -26,7 +26,7 @@ export const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
     },
     scales: {
       r: {
-        startAngle: -15, // 開始角度を15度ずらしてCを真上にし、五度圏の形にする
+        startAngle: -15, // 開始角度を15度ずらしてハ長調を真上にし、五度圏の形にする
         ticks: {
           display: false,
         },

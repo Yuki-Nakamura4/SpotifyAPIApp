@@ -20,9 +20,10 @@ export const Home: React.FC = () => {
   const [aveKeySign, setAveKeySign] = useState<number>(0);
   const [flatPercentage, setFlatPercentage] = useState<number>(0);
   const [sharpPercentage, setSharpPercentage] = useState<number>(0);
-  const { artistData}: { artistData: ArtistData} = useFetchArtistData(searchQuery);
+  const { artistData }: { artistData: ArtistData } = useFetchArtistData(searchQuery);
   const [songsErrorMessage, setSongsErrorMessage] = useState<string>('');
 
+  // 楽曲のデータからキーのデータを取得する関数
   const getKeyCount = (result: { 曲名: string; キー: string }[]) => {
     const keyCount: { [key: string]: number } = {};
     result.forEach((item: { 曲名: string; キー: string }) => {
@@ -35,6 +36,7 @@ export const Home: React.FC = () => {
     return keyCount;
   };
 
+  // キーのデータを五度圏の順にソートする関数
   const getSortedKeyData = (keyCount: { [key: string]: number }) => {
     return keysInfo.map((keyInfo) => ({
       name: keyInfo.name,
@@ -44,7 +46,7 @@ export const Home: React.FC = () => {
     }));
   };
 
-  // useEffectは初回レンダリング時と、再レンダリング時に第二引数の値に差分があったときのみ実行される
+  // useEffectは初回レンダリング時と、レンダリング時に第二引数の値に差分があったときのみ実行される
   useEffect(() => {
     if (searchResult.length > 0) {
       const keyCount = getKeyCount(searchResult);

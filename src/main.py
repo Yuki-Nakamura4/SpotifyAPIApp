@@ -47,9 +47,10 @@ def key_number_to_name(key_sig_num):
 
 
 # 楽曲を検索するAPI
-# @app.getはFastAPIのデコレータで、HTTP GETリクエストに対応するエンドポイント(APIの特定のURL)を定義する
+# @app.getはFastAPIのデコレータで、HTTP GETリクエストに対応するエンドポイントを定義する
 @app.get("/search_artist/")
 def search_artist(artist: str = Query(..., title="アーティスト名")):
+    # SpotifyAPIを利用するためのクライアントを作成
     sp = spotipy.Spotify(
         auth_manager=SpotifyClientCredentials(
             # 環境変数から読み込む
@@ -64,6 +65,7 @@ def search_artist(artist: str = Query(..., title="アーティスト名")):
     results = sp.search(q=artist, limit=50)
     response_data = []
 
+    # 検索結果から曲名とキーを取得
     for track in results["tracks"]["items"]:
         track_name = track["name"]
         track_id = track["id"]
