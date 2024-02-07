@@ -1,23 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { PolarArea } from 'react-chartjs-2';
+import { KeyData } from '../../types/KeyData';
 
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-};
-
-interface KeyChartProps {
+type KeyChartProps = {
   keyData: KeyData[];
 }
 
-const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
-  useEffect(() => {
-    // keyData が変更されたときの処理を追加する
-    console.log('keyData changed:', keyData);
-    // 例: グラフの再描画などが必要な場合はここに処理を追加する
-  }, [keyData]);
-
+export const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
   const chartData = {
     labels: keyData.map(entry => entry.name),
     datasets: [
@@ -28,6 +17,7 @@ const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
     ],
   };
 
+  // グラフの設定
   const options: {} = {
     plugins: {
       legend: {
@@ -36,7 +26,7 @@ const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
     },
     scales: {
       r: {
-        startAngle: -15,
+        startAngle: -15, // 開始角度を15度ずらしてハ長調を真上にし、五度圏の形にする
         ticks: {
           display: false,
         },
@@ -46,5 +36,3 @@ const KeyChart: React.FC<KeyChartProps> = ({ keyData }) => {
 
   return <PolarArea data={chartData} options={options} />;
 };
-
-export default KeyChart;

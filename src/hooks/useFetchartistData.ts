@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
-type Artist = {
+type ArtistData = {
     id: string;
     name: string;
 };
 
-const useFetchArtistData = (searchQuery: string) => {
-  const [artistData, setArtistData] = useState<Artist[]>([]);
+export const useFetchArtistData = (searchQuery: string) => {
+  const [artistData, setArtistData] = useState<ArtistData[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -29,5 +29,3 @@ const useFetchArtistData = (searchQuery: string) => {
 
   return { artistData, errorMessage };
 };
-
-export default useFetchArtistData;

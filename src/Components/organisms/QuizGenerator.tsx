@@ -19,7 +19,7 @@ interface QuizGeneratorProps {
   onFetchData: (data: Artist[]) => void;
 }
 
-const QuizGenerator: React.FC<QuizGeneratorProps> = ({ onFetchData }) => {
+export const QuizGenerator: React.FC<QuizGeneratorProps> = ({ onFetchData }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,5 +40,3 @@ const QuizGenerator: React.FC<QuizGeneratorProps> = ({ onFetchData }) => {
 
   return null;
 };
-
-export default QuizGenerator;

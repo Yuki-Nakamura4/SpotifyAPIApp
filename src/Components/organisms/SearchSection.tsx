@@ -2,14 +2,14 @@
 import React from 'react';
 import {SearchBar} from '../molecules/SearchBar';
 
-interface SearchSectionProps {
+type SearchSectionProps = {
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   artistData: { name: string; id: string }[];
   handleArtistClick: (artistId: string) => void;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({
+export const SearchSection: React.FC<SearchSectionProps> = ({
   searchQuery,
   setSearchQuery,
   artistData,
@@ -26,5 +26,3 @@ const SearchSection: React.FC<SearchSectionProps> = ({
     </div>
   );
 };
-
-export default SearchSection;

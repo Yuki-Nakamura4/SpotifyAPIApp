@@ -13,12 +13,12 @@ export const Header = memo(() => {
 
     // 不要な再レンダリングが走らないようuseCallbackでラップ
     const onClickTop = useCallback(() => navigate("/"),[]);
-    const onClickMypage = useCallback(() => navigate("/mypage"),[]);
+//    const onClickMypage = useCallback(() => navigate("/mypage"),[]);
     const onClickQuiz = useCallback(() => navigate("/quiz"),[]);
     const onClickSettings = useCallback(() => navigate("/settings"),[]);
 
     const isTopPage = location.pathname === "/";
-    const isMyPage = location.pathname === "/mypage";
+//    const isMyPage = location.pathname === "/mypage";
     const isQuiz = location.pathname === "/quiz";
     const isSettings = location.pathname === "/settings";
 
@@ -29,7 +29,7 @@ export const Header = memo(() => {
     <button className="mt-6 text-4xl text-center text-slate-500 font-Quicksand font-500" onClick={onClickTop} >KEY PALETTE</button>
     </div>
       <div className="mt-5 mb-4 flex justify-center space-x-8">
-      <p className={`text-lg ${isTopPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickTop}>TOP</p>
+      <p className={`text-lg ${isTopPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickTop}>HOME</p>
       {/* <p className={`text-lg ${isMyPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickMypage}>MY PAGE</p> */}
       <p className={`text-lg ${isQuiz ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickQuiz}>QUIZ</p>
       <p className={`text-lg ${isSettings ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickSettings}>SETTINGS</p>

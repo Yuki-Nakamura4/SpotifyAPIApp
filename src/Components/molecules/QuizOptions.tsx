@@ -1,12 +1,7 @@
 // QuizOptions.tsx
 import React from 'react';
-import QuizOptionsButton from '../atoms/QuizOptionsButton';
-
-type KeyData = {
-  name: string;
-  value: number;
-  fill: string;
-};
+import { QuizOptionsButton } from '../atoms/QuizOptionsButton';
+import { KeyData } from '../../types/KeyData';
 
 type Artist = {
   id: number;
@@ -20,7 +15,7 @@ type QuizOptionsProps = {
   correctArtist: Artist | null; // 追加: 正解のアーティストを受け取る
 }
 
-const QuizOptions: React.FC<QuizOptionsProps> = ({ randomArtists, handleAnswerClick }) => {
+export const QuizOptions: React.FC<QuizOptionsProps> = ({ randomArtists, handleAnswerClick }) => {
   return (
     <div className="grid grid-cols-2 gap-4 mt-6">
       {randomArtists.map((artist) => (
@@ -30,5 +25,3 @@ const QuizOptions: React.FC<QuizOptionsProps> = ({ randomArtists, handleAnswerCl
     </div>
   );
 };
-
-export default QuizOptions;
