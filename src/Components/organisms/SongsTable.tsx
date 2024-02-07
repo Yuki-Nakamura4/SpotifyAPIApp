@@ -9,8 +9,8 @@ type SongsTableProps = {
 export const SongsTable: React.FC<SongsTableProps> = ({ searchResult }) => {
   const getBackgroundColor = (key: string): string => {
     const foundKey = keysColor.find((item: KeysColor) => item.name === key);
-     // 各キーの色を不透明度40%にした色で背景色にする。キーが不明な場合は白を返す
-    return foundKey ? `${foundKey.color}3B` : '#fffff';
+     // 各キーの色を不透明度35%にした色を背景色にする。キーの色が不明な場合は白を返す
+    return foundKey ? `${foundKey.color}59` : '#fffff'; // 16進数で59=10進数で89, 不透明度は89/255=約35%
   };
 
   return (

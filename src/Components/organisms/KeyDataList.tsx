@@ -30,8 +30,8 @@ export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData, keyCount }) =
           <span>{key.name}</span>
           <span className="text-slate-500"> ({key.sign})</span>
            {/* keyCount[key.name]が最大曲数と一致する場合、text-slate-600を適用 */}
-           <span className={`ml-auto mr-4 text-gray-500 ${keyCount[key.name] === maxKeyCount ? 'text-slate-600' : ''}`}>
-            {keyCount[key.name]}曲
+           <span className={`ml-auto mr-4 text-gray-500 ${keyCount[key.name] === maxKeyCount ? 'text-orange-600' : ''}`}>
+            {keyCount[key.name] || 0}曲
           </span>
         </div>
       ))}
