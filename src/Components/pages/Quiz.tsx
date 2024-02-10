@@ -133,7 +133,11 @@ export const Quiz: React.FC = () => {
         <p>Loading...</p>
       ) : quizStarted ? (
         <div>
-          <KeyChart keyData={keyData} />
+          {keyData.length > 0 ? (
+            <KeyChart keyData={keyData} />
+          ) : (
+            <p>Loading Key Data...</p>
+          )}
           <QuizOptions
             key={currentQuestion}
             randomArtists={artistOptions}
@@ -161,4 +165,4 @@ export const Quiz: React.FC = () => {
       )}
     </div>
   );
-};
+      }
