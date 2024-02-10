@@ -66,14 +66,13 @@ export const Settings = () => {
 
   return (
     <>
-      <div className="p-6 flex justify-center text-xl text-slate-700">設定ページ</div>
-      <div className=" flex justify-center text-lg text-slate-700">調の色を好きな色に設定しましょう！</div>
-      <div className="mt-2 mb-5 flex justify-center text-lg text-slate-700">調名の横にある四角をクリックすると色を変更できます</div>
+      <div className="mt-8 flex justify-center text-lg text-slate-700">調の色を自由に設定しましょう！</div>
+      <div className="mt-2 mb-5 flex justify-center text-lg text-slate-700">※ 調名の横の四角をクリックすると色を変更できます</div>
       <div >
         {keyGroups.map((group, index) => (
           <div key={index} className="flex justify-center">
             {group.map((key) => (
-              <div key={key.name} className="color-option">
+              <div key={key.name} className="ml-2 color-option">
                 <label>{key.name}:</label>
                 <input type="color" value={usersColors[key.name]} onChange={handleColorChange(key.name)} />
               </div>
@@ -83,7 +82,7 @@ export const Settings = () => {
         <div className="flex justify-center">
           <button className="mt-6 py-2 px-3 rounded-md text-sm text-slate-800 bg-white shadow-md" onClick={handleReset}>設定をリセット</button>
           </div>
-          <div className="mt-8 flex text-xl text-slate-800 justify-center">プレビュー</div>
+          <div className="mt-10 flex text-xl text-slate-800 justify-center">プレビュー</div>
         <div className="mt-5 flex justify-center">
         <div className=" w-1/3">
           <PolarArea data={chartData} options={options}/>
