@@ -10,7 +10,12 @@
   - クイズ機能
   - 色設定機能
 
+https://github.com/Yuki-Nakamura4/SpotifyAPIApp/assets/143366767/a132f7f4-09c3-4d48-babd-4cf357a07723
 
 
-https://github.com/Yuki-Nakamura4/SpotifyAPIApp/assets/143366767/490f2e91-af93-4644-a19e-d839732e6302
+
+
+
+
+
 
