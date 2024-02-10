@@ -4,11 +4,11 @@ import { KeyChart } from '../organisms/KeyChart';
 import { KeyDataList } from '../organisms/KeyDataList';
 import { SongsTable } from '../organisms/SongsTable';
 import { keysInfo } from '../../data/KeysInfo';
-import { TailSpin } from 'react-loader-spinner';
 import { useFetchArtistData } from '../../hooks/useFetchArtistData';
 import { useFetchSongsByArtist } from '../../hooks/useFetchSongsByArtist';
 import { KeyData } from '../../types/KeyData';
 import { ArtistData } from '../../types/ArtistData';
+import LoadingSpinner from '../atoms/Loading';
 
 export const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -95,16 +95,14 @@ export const Home: React.FC = () => {
       ) : loading ? (
         <div className="flex justify-center mt-10 ">
         <div>
-        <TailSpin 
-        color="rgb(6 182 212)"
-        radius="2"/>
+        <LoadingSpinner />
         </div>
         </div>
       ) : searchPerformed && searchResult.length === 0 ? (
         <div className="flex justify-center mt-4">検索結果が0件でした</div>
       ) : keyData.length > 0 ? (
         <div>
-          <h2 className="flex justify-center py-5 text-xl text-slate-800">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</h2>
+          <div className="flex justify-center py-5 text-xl text-slate-800">{selectedArtist ? `${selectedArtist} の楽曲の調データ` : '楽曲の調データ'}</div>
             <div className="flex justify-center">
               <div className="lg:w-2/5 md:w-2/3 bg-slate-50 px-4">
                 <KeyDataList keyData={keyData} keyCount={keyCount}/>
