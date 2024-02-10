@@ -15,8 +15,18 @@ export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData, keyCount }) =
     }
   });
 
+  // 総楽曲数の計算
+  const totalSongs = Object.values(keyCount).reduce((acc: number, count)=> (count ? acc + count : acc), 0);
+
   return (
-    <div className="my-4 mx-2 flex flex-wrap text-slate-800">
+  <div>
+    {/* 総楽曲数を表示 */}
+    <div className="flex justify-center items-end text-slate-700 mt-2 mx-2 text-md font-bold">
+      総楽曲数&nbsp;<span className="text-xl">{totalSongs}</span> 曲
+    </div>
+    {/* キーのデータを表示 */}
+    <div className="mb-4 mt-2 mx-2 flex flex-wrap">
+      <br />
       {keyData.map((key, index) => (
         <div key={index} className="w-1/2 flex items-center">
           <div
@@ -35,6 +45,7 @@ export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData, keyCount }) =
           </span>
         </div>
       ))}
+    </div>
     </div>
   );
 };
