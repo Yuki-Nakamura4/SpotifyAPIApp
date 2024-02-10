@@ -26,7 +26,7 @@ export const Header = memo(() => {
     <>
     <div className="items-center bg-white h-32 w-full border-b border-slate-300">
       <div className="justify-center flex">
-    <button className="mt-6 text-4xl text-center text-slate-500 font-Quicksand font-500" onClick={onClickTop} >KEY PALETTE</button>
+    <button className="mt-6 text-4xl text-center text-blue-900 font-Quicksand font-500" onClick={onClickTop} >KEY PALETTE</button>
     </div>
       <div className="mt-5 mb-4 flex justify-center space-x-8">
       <p className={`text-lg ${isTopPage ? 'text-red-400 border-b border-red-400' : 'text-slate-500'} hover:text-red-400  invisible sm:visible font-Quicksand font-600 cursor-pointer`} onClick={onClickTop}>HOME</p>

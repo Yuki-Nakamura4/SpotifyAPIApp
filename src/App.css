@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -38,6 +27,6 @@
 }
 
 body {
-  background-color: rgb(241 245 249);
+  background-color: rgb(241, 245, 248);
   /* その他のスタイルプロパティを追加できます */
 }
