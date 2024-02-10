@@ -21,11 +21,11 @@ export const KeyDataList: React.FC<KeyDataListProps> = ({ keyData, keyCount }) =
   return (
   <div>
     {/* 総楽曲数を表示 */}
-    <div className="flex justify-center items-end text-slate-700 mt-2 mx-2 text-md font-bold">
+    <div className="flex justify-center items-end text-slate-700 mt-3 mx-2 text-md font-bold">
       総楽曲数&nbsp;<span className="text-xl">{totalSongs}</span> 曲
     </div>
     {/* キーのデータを表示 */}
-    <div className="mb-4 mt-2 mx-2 flex flex-wrap">
+    <div className="mb-4 mt-3 mx-2 flex flex-wrap">
       <br />
       {keyData.map((key, index) => (
         <div key={index} className="w-1/2 flex items-center">
