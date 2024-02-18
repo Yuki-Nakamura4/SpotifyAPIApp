@@ -8,7 +8,7 @@ import { useFetchArtistData } from '../../hooks/useFetchArtistData';
 import { useFetchSongsByArtist } from '../../hooks/useFetchSongsByArtist';
 import { KeyData } from '../../types/KeyData';
 import { ArtistData } from '../../types/ArtistData';
-import LoadingSpinner from '../atoms/Loading';
+import { LoadingSpinner } from '../atoms/Loading';
 
 export const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -46,7 +46,8 @@ export const Home: React.FC = () => {
     }));
   };
 
-  // useEffectは初回レンダリング時と、レンダリング時に第二引数の値に差分があったときのみ実行される
+  // useEffectはレンダリング時に実行される副作用のフック
+  // 初回レンダリング時と、再レンダリング時に第二引数の値に差分があったときのみ実行される
   // 外部APIからデータを取得する処理はuseEffect内で行う
   useEffect(() => {
     if (searchResult.length > 0) {
@@ -68,7 +69,7 @@ export const Home: React.FC = () => {
       setFlatPercentage(flatParcentage);
       setSharpPercentage(sharpParcentage);
     }
-  }, [searchResult]);
+  }, [searchResult]); // 検索結果に変更があったときのみ実行
 
   const handleArtistClick = useFetchSongsByArtist({
     setLoading,
